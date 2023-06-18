@@ -10,11 +10,6 @@ export const MoviePoster = () => {
 
   return (
     <>
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoText}>TV shows</Text>
-        <Text style={{ ...styles.infoText, marginHorizontal: 20 }}> Movies</Text>
-        <Text style={styles.infoText}>Categories</Text>
-      </View>
       <TouchableOpacity
         onPress={() => {}}
         activeOpacity={0.8}
@@ -56,18 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 9,
     borderWidth: 1,
   },
-  infoContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    margin: 5,
-  },
-  infoText: {
-    fontSize: 17,
-    color: "white",
-    fontWeight: "300",
-  },
+
   buttonContainer: {
     flexDirection: "row",
     position: "absolute",
