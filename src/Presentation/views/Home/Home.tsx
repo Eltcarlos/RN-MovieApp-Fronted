@@ -1,13 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { MoviePoster } from "../../../components/Home/MoviePoster";
+import { MoviePoster } from "../../components/Home/MoviePoster";
 import HomeStyles from "./Styles";
-import { GradientBackground } from "../../../components/Home/GradientBackground";
-import WatchingComponent from "../../../components/Home/WatchingComponent";
-import MostPopularComponent from "../../../components/Home/MostPopularComponent";
-import TrendingComponent from "../../../components/Home/TrendingComponent";
-import Navbar from "../../../components/Home/Navbar";
-import ProgressComponent from "../../../components/Home/ProgressComponent";
+import { GradientBackground } from "../../components/Home/GradientBackground";
+import WatchingComponent from "../../components/Home/WatchingComponent";
+import MostPopularComponent from "../../components/Home/MostPopularComponent";
+import TrendingComponent from "../../components/Home/TrendingComponent";
+import Navbar from "../../components/Home/Navbar";
+import ProgressComponent from "../../components/Home/ProgressComponent";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
   return (

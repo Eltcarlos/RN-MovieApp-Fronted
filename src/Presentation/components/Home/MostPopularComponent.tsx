@@ -1,6 +1,7 @@
-import { Pressable, StyleSheet, Text, View, Image, ScrollView, FlatList } from "react-native";
+import { Pressable, StyleSheet, Text, View, Image, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { MovieSlider } from "./MovieSlider";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {
   title?: string;
@@ -12,11 +13,16 @@ interface PropsTopTen {
 }
 
 const TopTen = ({ item, index }: PropsTopTen) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.topTenContainer}>
+    <TouchableOpacity
+      key={index}
+      onPress={() => navigation.navigate("MovieScreen", item)}
+      style={styles.topTenContainer}
+    >
       <Text style={styles.topTenText}>{index + 1}</Text>
       <MovieSlider movie={item} width={140} height={200} />
-    </View>
+    </TouchableOpacity>
   );
 };
 
