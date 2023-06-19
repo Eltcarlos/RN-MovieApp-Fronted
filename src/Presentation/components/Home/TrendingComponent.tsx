@@ -25,6 +25,7 @@ const TrendingComponent = ({ title }: Props) => {
       style={{
         height: title ? 220 : 220,
         top: 12,
+        marginBottom: 20,
       }}
     >
       {title && <Text style={styles.text}>{title}</Text>}

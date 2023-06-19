@@ -15,7 +15,7 @@ export const MoviePoster = () => {
         activeOpacity={0.8}
         style={{
           width: 360,
-          height: 600,
+          height: 700,
           marginHorizontal: 2,
           paddingBottom: 20,
           paddingHorizontal: 7,
@@ -24,15 +24,30 @@ export const MoviePoster = () => {
         <View style={styles.imageContainer}>
           <Image source={require("../../../../assets/poster.jpg")} style={styles.image} />
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={{ ...styles.button, backgroundColor: "white" }} onPress={() => {}}>
-              <Entypo name="controller-play" size={24} color="black" />
-              <Text style={styles.buttonText}>Play</Text>
-            </TouchableOpacity>
-            <View style={styles.separator} />
-            <TouchableOpacity style={{ ...styles.button, backgroundColor: "rgba(236,236,236,0.5)" }} onPress={() => {}}>
+            <View>
               <AntDesign style={{ textAlign: "center" }} name="plus" size={24} color="white" />
-              <Text style={{ ...styles.buttonText, color: "white" }}>My List</Text>
-            </TouchableOpacity>
+              <Text style={{ fontSize: 17, fontWeight: "bold", color: "white", marginTop: 3 }}>My List</Text>
+            </View>
+            <View style={styles.separator} />
+            <View
+              style={{
+                backgroundColor: "white",
+                padding: 8,
+                width: 120,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 6,
+                flexDirection: "row",
+              }}
+            >
+              <Entypo name="controller-play" size={24} color="black" />
+              <Text style={{ fontSize: 17, fontWeight: "bold", color: "black" }}>Play</Text>
+            </View>
+            <View style={styles.separator} />
+            <View>
+              <AntDesign style={{ textAlign: "center" }} name="infocirlceo" size={24} color="white" />
+              <Text style={{ fontSize: 17, fontWeight: "bold", color: "white", marginTop: 3 }}>Info</Text>
+            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -43,21 +58,22 @@ export const MoviePoster = () => {
 const styles = StyleSheet.create({
   image: {
     width: "100%",
-    height: "100%",
+    height: "90%",
     borderRadius: 8,
   },
   imageContainer: {
     borderColor: "white",
     borderRadius: 9,
-    borderWidth: 1,
   },
 
   buttonContainer: {
     flexDirection: "row",
-    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
     alignSelf: "center",
-    bottom: 1,
-    paddingBottom: 20,
+    left: -15,
+    paddingBottom: 10,
+    marginTop: 10,
   },
   button: {
     padding: 8,
@@ -72,6 +88,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   separator: {
-    width: 3,
+    width: 20,
   },
 });

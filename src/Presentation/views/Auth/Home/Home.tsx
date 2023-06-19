@@ -7,6 +7,7 @@ import WatchingComponent from "../../../components/Home/WatchingComponent";
 import MostPopularComponent from "../../../components/Home/MostPopularComponent";
 import TrendingComponent from "../../../components/Home/TrendingComponent";
 import Navbar from "../../../components/Home/Navbar";
+import ProgressComponent from "../../../components/Home/ProgressComponent";
 
 const HomeScreen = () => {
   return (
@@ -18,6 +19,7 @@ const HomeScreen = () => {
             <View style={HomeStyles.ImgContainer}>
               <MoviePoster />
             </View>
+            <ProgressComponent title="Avances" />
             <MostPopularComponent title="Las 10 películas más populares" />
           </GradientBackground>
           <View style={HomeStyles.flatListContainer}>
