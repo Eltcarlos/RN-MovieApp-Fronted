@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     bottom: 1,
-    paddingBottom: 10,
+    paddingBottom: 20,
   },
   button: {
     padding: 8,

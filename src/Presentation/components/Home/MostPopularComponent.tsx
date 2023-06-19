@@ -6,7 +6,21 @@ interface Props {
   title?: string;
 }
 
-const TrendingComponent = ({ title }: Props) => {
+interface PropsTopTen {
+  item?: any;
+  index?: any;
+}
+
+const TopTen = ({ item, index }: PropsTopTen) => {
+  return (
+    <View style={styles.topTenContainer}>
+      <Text style={styles.topTenText}>{index + 1}</Text>
+      <MovieSlider movie={item} width={140} height={200} />
+    </View>
+  );
+};
+
+const MostPopularComponent = ({ title }: Props) => {
   const [movies, setMovies] = useState<any[]>([]);
   useEffect(() => {
     const movieData = async () => {
@@ -23,7 +37,7 @@ const TrendingComponent = ({ title }: Props) => {
   return (
     <View
       style={{
-        height: title ? 220 : 220,
+        height: title ? 260 : 220,
         top: 12,
       }}
     >
@@ -31,7 +45,7 @@ const TrendingComponent = ({ title }: Props) => {
 
       <FlatList
         data={movies}
-        renderItem={({ item, index }: any) => <MovieSlider movie={item} width={140} height={200} />}
+        renderItem={({ item, index }: any) => <TopTen item={item} index={index} />}
         keyExtractor={(item) => item.id.toString()}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
@@ -40,7 +54,7 @@ const TrendingComponent = ({ title }: Props) => {
   );
 };
 
-export default TrendingComponent;
+export default MostPopularComponent;
 
 const styles = StyleSheet.create({
   topTenContainer: {

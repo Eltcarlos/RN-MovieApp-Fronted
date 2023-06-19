@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
 
 const HomeStyles = StyleSheet.create({
-  container: {
+  container: { flex: 1 },
+  flatListContainer: {
     flex: 1,
     backgroundColor: "black",
   },

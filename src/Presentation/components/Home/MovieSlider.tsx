@@ -18,7 +18,6 @@ export const MovieSlider = ({ movie, height = 420, width = 300 }: Props) => {
       style={{
         width,
         height,
-        marginHorizontal: 2,
         paddingBottom: 20,
         paddingHorizontal: 7,
       }}
