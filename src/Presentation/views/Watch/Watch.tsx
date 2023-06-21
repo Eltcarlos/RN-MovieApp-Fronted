@@ -52,7 +52,6 @@ const Watch = ({ navigation, route }: Props) => {
   useEffect(() => {
     async function changeScreenOrientation() {
       const orientations = await ScreenOrientation.getOrientationAsync();
-      console.log(orientations);
       if (orientations !== 3) {
         await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
       }

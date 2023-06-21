@@ -3,20 +3,21 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Navbar = () => {
+const Navbar = ({ children }: any) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <Text style={styles.text}>Nuesta selección para ti</Text>
         <View style={styles.iconContainer}>
-          <FontAwesome5 name="chromecast" size={25} color="white" />
+          <FontAwesome5 name="chromecast" size={18} color="white" />
           <View style={styles.spacer} />
-          <FontAwesome5 name="search" size={22} color="white" />
+          <FontAwesome5 name="search" size={18} color="white" />
           <View style={styles.spacer} />
 
           <Image style={styles.logo} source={require("../../../../assets/default-blue.png")} />
         </View>
       </View>
+      {children}
     </SafeAreaView>
   );
 };
@@ -25,6 +26,7 @@ export default Navbar;
 
 const styles = StyleSheet.create({
   container: {
+    position: "relative",
     alignItems: "center",
     height: 50,
     width: "100%",
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
   },
   text: {
     padding: 10,
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "bold",
     color: "white",
   },
@@ -40,14 +42,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 15,
     justifyContent: "center",
+    marginLeft: 30,
   },
   logo: {
-    height: 25,
-    width: 25,
+    height: 20,
+    width: 20,
   },
   spacer: {
-    paddingHorizontal: 5,
+    paddingHorizontal: 8,
   },
 });

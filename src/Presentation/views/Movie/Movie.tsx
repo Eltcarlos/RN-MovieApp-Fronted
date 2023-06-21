@@ -50,7 +50,7 @@ const MovieScreen = ({ navigation, route }: Props) => {
             <Text style={MovieStyles.textTitle}>{item.title}</Text>
             <View style={MovieStyles.info}>
               <Text style={MovieStyles.match}>98% match</Text>
-              <Text style={MovieStyles.year}>1990</Text>
+              <Text style={MovieStyles.year}>{item.releaseYear}</Text>
               {item.age && (
                 <View style={MovieStyles.ageContainer}>
                   <Text style={MovieStyles.age}>{item.age}+</Text>
