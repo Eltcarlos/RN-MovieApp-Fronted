@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../../views/Home/Home";
 import { Icon } from "react-native-elements";
 import AppNavigation from "../AppNavigation";
-import WatchScreen from "../../views/Watch/Watch";
 
 const Tab = createBottomTabNavigator();
 

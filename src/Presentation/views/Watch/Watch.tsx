@@ -1,40 +1,87 @@
-import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
-import { Video, ResizeMode } from "expo-av";
-import React, { useEffect, useRef, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, View, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as NavigationBar from "expo-navigation-bar";
+import * as ScreenOrientation from "expo-screen-orientation";
+import { StatusBar } from "expo-status-bar";
+import VideoPlayer from "expo-video-player";
+import { ResizeMode } from "expo-av";
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import WatchStyles from "./Styles";
 
-const WatchScreen = () => {
-  const { params: item } = useRoute();
+const Header = () => {
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
+  const exit = async () => {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    await NavigationBar.setVisibilityAsync("visible");
 
-  const [isStarted, setIsStarted] = useState(false);
-  const [videoStatus, setVideoStatus] = useState(0);
-  const video = useRef(null);
-  const startPauseVideo = () => setIsStarted((prevState) => !prevState);
-
-  useEffect(() => {
-    if (isFocused) {
-      navigation.setOptions({ tabBarVisible: false });
-    }
-  }, [isFocused, navigation]);
+    navigation.goBack();
+  };
   return (
-    <View style={WatchStyles.container}>
-      <Pressable style={WatchStyles.container} onPress={startPauseVideo}>
-        <Video
-          ref={video}
-          source={{ uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
-          style={WatchStyles.video}
-          resizeMode={ResizeMode.STRETCH}
-          isLooping
-          shouldPlay={isStarted}
-          onPlaybackStatusUpdate={(status: any) => setVideoStatus(status)}
-        />
-      </Pressable>
+    <View style={WatchStyles.headerContainer}>
+      <AntDesign name="left" size={24} color="white" onPress={exit} />
+      <View style={WatchStyles.headerSeparator} />
+      <Text style={WatchStyles.headerText}>Designated Survivor</Text>
     </View>
   );
 };
 
-export default WatchScreen;
+const Watch = () => {
+  const [showView, setShowView] = useState(false);
+
+  useEffect(() => {
+    const delay = 2000;
+    const timer = setTimeout(() => {
+      setShowView(true);
+    }, delay);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    async function NavigationBarScreen() {
+      await NavigationBar.setVisibilityAsync("hidden");
+      await NavigationBar.setBackgroundColorAsync("black");
+    }
+    NavigationBarScreen();
+  }, []);
+
+  useEffect(() => {
+    async function changeScreenOrientation() {
+      const orientations = await ScreenOrientation.getOrientationAsync();
+      console.log(orientations);
+      if (orientations !== 3) {
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+      }
+    }
+    changeScreenOrientation();
+  }, []);
+
+  return (
+    <SafeAreaView style={WatchStyles.container}>
+      <StatusBar hidden={true} />
+      {showView && (
+        <VideoPlayer
+          videoProps={{
+            shouldPlay: true,
+            resizeMode: ResizeMode.STRETCH,
+            source: {
+              uri: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            },
+          }}
+          style={{
+            videoBackgroundColor: "black",
+            height: Dimensions.get("window").height - 20,
+            width: Dimensions.get("window").width,
+          }}
+          fullscreen={{
+            visible: false,
+          }}
+          header={<Header />}
+        />
+      )}
+    </SafeAreaView>
+  );
+};
+
+export default Watch;

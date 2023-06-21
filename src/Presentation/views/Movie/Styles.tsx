@@ -43,6 +43,7 @@ const MovieStyles = StyleSheet.create({
     top: 50,
   },
   infoContainer: {},
+
   textTitle: {
     justifyContent: "center",
     alignItems: "center",
@@ -57,6 +58,27 @@ const MovieStyles = StyleSheet.create({
     paddingHorizontal: 10,
     width: 120,
     justifyContent: "space-between",
+  },
+  match: {
+    color: "#59d467",
+    fontWeight: "bold",
+    marginRight: 5,
+  },
+  year: {
+    color: "#757575",
+    marginRight: 5,
+  },
+  ageContainer: {
+    backgroundColor: "#e6e229",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 2,
+    paddingHorizontal: 3,
+    marginRight: 5,
+  },
+  age: {
+    color: "black",
+    fontWeight: "bold",
   },
   buttonContainer: {
     padding: 10,
@@ -82,6 +104,12 @@ const MovieStyles = StyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: "space-between",
     marginHorizontal: 30,
+  },
+  tabIndicator: {
+    backgroundColor: "red",
+  },
+  tabItemContainer: {
+    backgroundColor: "transparent",
   },
 });
 

@@ -1,5 +1,5 @@
-import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
-import React, { useRef, useState } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import React from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,15 +7,29 @@ import MovieStyles from "./Styles";
 import { Video, ResizeMode } from "expo-av";
 import { TimeLine } from "../../components/Shared/TimeLine";
 import { AntDesign, Entypo, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import MovieViewModel from "./ViewModel";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamListApp } from "../../navigator/AppNavigation";
+import { Tab, TabView } from "react-native-elements";
+import styles from "../../components/Movie/Styles";
 import TrendingComponent from "../../components/Home/TrendingComponent";
 
-const MovieScreen = () => {
+interface Props extends StackScreenProps<RootStackParamListApp, "WatchScreen"> {}
+
+const MovieScreen = ({ navigation, route }: Props) => {
   const { params: item } = useRoute();
-  const navigation = useNavigation();
-  const [isStarted, setIsStarted] = useState(false);
-  const [videoStatus, setVideoStatus] = useState(0);
-  const video = useRef(null);
-  const startPauseVideo = () => setIsStarted((prevState) => !prevState);
+  const {
+    setIsStarted,
+    isStarted,
+    videoStatus,
+    setVideoStatus,
+    video,
+    startPauseVideo,
+    movie,
+    setMovie,
+    tabActive,
+    setTabActive,
+  } = MovieViewModel();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <ScrollView>
@@ -45,38 +59,22 @@ const MovieScreen = () => {
             <Text style={MovieStyles.textTitle}>El club de las cosas Magicas</Text>
           </View>
           <View style={MovieStyles.info}>
-            <Text style={{ color: "rgba(255,255,255,.5)", fontSize: 12 }}>2018</Text>
-            <Text
-              style={{
-                color: "rgba(255,255,255,.5)",
-                fontSize: 10,
-                width: 22,
-                height: 15,
-                backgroundColor: "#252525",
-                textAlign: "center",
-                borderRadius: 3,
-              }}
-            >
-              7+
-            </Text>
-            <Text
-              style={{
-                color: "white",
-                fontSize: 8,
-                width: 22,
-                height: 15,
-                borderWidth: 2,
-                borderColor: "white",
-                textAlign: "center",
-              }}
-            >
-              HD
-            </Text>
+            <Text style={MovieStyles.match}>98% match</Text>
+            <Text style={MovieStyles.year}>1990</Text>
+            <View style={MovieStyles.ageContainer}>
+              <Text style={MovieStyles.age}>12+</Text>
+            </View>
+            <Text style={MovieStyles.year}>9 Seasons</Text>
           </View>
           <View style={MovieStyles.buttonContainer}>
             <Pressable
               style={{ ...MovieStyles.button, backgroundColor: "white" }}
-              onPress={() => navigation.navigate("WatchScreen")}
+              onPress={() => {
+                if (isStarted === true) {
+                  setIsStarted(false);
+                }
+                navigation.navigate("WatchScreen", {});
+              }}
             >
               <Entypo name="controller-play" size={24} color="black" />
               <Text style={{ fontSize: 17, fontWeight: "500", color: "black" }}>Ver</Text>
@@ -94,6 +92,10 @@ const MovieScreen = () => {
             se mueve por una sangrienta sed de venganza y que está dispuesto a destrozar a la familia y destruir para
             siempre todo lo que a Dom le importa.
           </Text>
+          <View style={{ marginLeft: 12 }}>
+            <Text style={MovieStyles.year}>Cast: Crish Evans, Leonardo Dicaprio, Emma Stone, Cristopher Nolan</Text>
+            <Text style={MovieStyles.year}>Creator: Aaron Korsh</Text>
+          </View>
           <View style={MovieStyles.actions}>
             <View>
               <AntDesign style={{ textAlign: "center" }} name="plus" size={24} color="white" />
@@ -112,10 +114,26 @@ const MovieScreen = () => {
               <Text style={{ fontSize: 12, color: "white", marginTop: 3 }}>Download</Text>
             </View>
           </View>
-          <Text style={{ fontSize: 12, fontWeight: "bold", color: "white", paddingHorizontal: 10, paddingTop: 20 }}>
-            MÁS SIMILARES
-          </Text>
-          <TrendingComponent />
+          <Tab value={tabActive} onChange={(e) => setTabActive(e)} indicatorStyle={MovieStyles.tabIndicator}>
+            <Tab.Item
+              containerStyle={MovieStyles.tabItemContainer}
+              title="SIMILARES"
+              titleStyle={{ fontSize: 12, fontWeight: "bold", color: "white" }}
+            />
+            <Tab.Item
+              containerStyle={MovieStyles.tabItemContainer}
+              title="TRÁILERES Y MÁS"
+              titleStyle={{ fontSize: 12, fontWeight: "bold", color: "white" }}
+            />
+          </Tab>
+          <TabView value={tabActive} onChange={setTabActive} animationType="timing">
+            <TabView.Item>
+              <TrendingComponent />
+            </TabView.Item>
+            <TabView.Item>
+              <TrendingComponent />
+            </TabView.Item>
+          </TabView>
         </View>
       </ScrollView>
     </SafeAreaView>
