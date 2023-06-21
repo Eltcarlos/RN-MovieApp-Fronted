@@ -8,16 +8,12 @@ const MovieViewModel = () => {
   const startPauseVideo = () => setIsStarted((prevState) => !prevState);
   const [movie, setMovie] = useState<Movie | undefined>(undefined);
   const [tabActive, setTabActive] = useState(0);
-  const [showLines, setShowLines] = useState(1);
-  const openCloseDescription = () => {
-    setShowLines(showLines === 1 ? 100 : 1);
-  };
 
-  useEffect(() => {
-    if (isStarted === false) {
-      setIsStarted(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (isStarted === false) {
+  //     setIsStarted(true);
+  //   }
+  // }, []);
 
   return {
     isStarted,
@@ -30,8 +26,6 @@ const MovieViewModel = () => {
     setMovie,
     tabActive,
     setTabActive,
-    showLines,
-    openCloseDescription,
   };
 };
 

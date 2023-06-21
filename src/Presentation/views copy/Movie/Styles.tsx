@@ -21,7 +21,7 @@ const MovieStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    bottom: 30,
+    bottom: 10,
     left: 10,
   },
   progressText: {
@@ -76,14 +76,6 @@ const MovieStyles = StyleSheet.create({
     paddingHorizontal: 3,
     marginRight: 5,
   },
-  hdContainer: {
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 2,
-    paddingHorizontal: 3,
-    marginRight: 5,
-  },
   age: {
     color: "black",
     fontWeight: "bold",
@@ -105,10 +97,6 @@ const MovieStyles = StyleSheet.create({
     marginHorizontal: 12,
     fontSize: 11,
     letterSpacing: 1,
-  },
-  loadMore: {
-    textAlign: "right",
-    fontWeight: "bold",
   },
   actions: {
     paddingTop: 10,

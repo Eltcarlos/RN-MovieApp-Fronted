@@ -1,35 +1,29 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
-import { Pressable, ScrollView, View } from "react-native";
-import { Text } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
+import { RootStackParamListApp } from "../../navigator/AppNavigation";
+import { Video, ResizeMode } from "expo-av";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import MovieStyles from "./Styles";
-import { Video, ResizeMode } from "expo-av";
-import { TimeLine } from "../../components/Shared/TimeLine";
+import useViewModel from "./ViewModel";
 import { AntDesign, Entypo, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
-import MovieViewModel from "./ViewModel";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamListApp } from "../../navigator/AppNavigation";
 import { Tab, TabView } from "react-native-elements";
-import styles from "../../components/Movie/Styles";
-import TrendingComponent from "../../components/Home/TrendingComponent";
 
-interface Props extends StackScreenProps<RootStackParamListApp, "WatchScreen"> {}
-
+interface Props extends StackScreenProps<RootStackParamListApp, "MovieScreen"> {}
 const MovieScreen = ({ navigation, route }: Props) => {
-  const { params: item } = useRoute();
+  const item: any = route.params;
   const {
-    setIsStarted,
-    isStarted,
-    videoStatus,
-    setVideoStatus,
     video,
-    startPauseVideo,
-    movie,
-    setMovie,
+    isStarted,
     tabActive,
+    showLines,
+    openCloseDescription,
     setTabActive,
-  } = MovieViewModel();
+    setVideoStatus,
+    startPauseVideo,
+    setIsStarted,
+  } = useViewModel();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <ScrollView>
@@ -37,7 +31,7 @@ const MovieScreen = ({ navigation, route }: Props) => {
           <Pressable style={MovieStyles.progressContainer} onPress={startPauseVideo}>
             <Video
               ref={video}
-              source={{ uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
+              source={{ uri: item.advance }}
               style={MovieStyles.progress}
               resizeMode={ResizeMode.STRETCH}
               isLooping
@@ -52,88 +46,94 @@ const MovieScreen = ({ navigation, route }: Props) => {
               )}
             </View>
           </Pressable>
-          <View style={MovieStyles.timeLine}>
-            <TimeLine status={videoStatus} />
-          </View>
           <View style={MovieStyles.infoContainer}>
-            <Text style={MovieStyles.textTitle}>El club de las cosas Magicas</Text>
+            <Text style={MovieStyles.textTitle}>{item.title}</Text>
+            <View style={MovieStyles.info}>
+              <Text style={MovieStyles.match}>98% match</Text>
+              <Text style={MovieStyles.year}>1990</Text>
+              {item.age && (
+                <View style={MovieStyles.ageContainer}>
+                  <Text style={MovieStyles.age}>{item.age}+</Text>
+                </View>
+              )}
+              <View style={MovieStyles.hdContainer}>
+                <Text style={MovieStyles.age}>HD</Text>
+              </View>
+            </View>
+            <View style={MovieStyles.buttonContainer}>
+              <Pressable
+                style={{ ...MovieStyles.button, backgroundColor: "white" }}
+                onPress={() => {
+                  if (isStarted === true) {
+                    setIsStarted(false);
+                  }
+                  navigation.navigate("WatchScreen", { title: item.title, video: item.video });
+                }}
+              >
+                <Entypo name="controller-play" size={24} color="black" />
+                <Text style={{ fontSize: 17, fontWeight: "500", color: "black" }}>Ver</Text>
+              </Pressable>
+              <View style={{ paddingVertical: 5 }} />
+              <View style={{ ...MovieStyles.button, backgroundColor: "#252525" }}>
+                <FontAwesome name="download" size={24} color="white" style={{ paddingHorizontal: 5 }} />
+                <Text style={{ fontSize: 17, fontWeight: "500", color: "white" }}>Descargar</Text>
+              </View>
+            </View>
+            <Text style={MovieStyles.description}>{item.plot}</Text>
+            <View style={{ marginLeft: 12 }}>
+              <Text numberOfLines={showLines} style={{ ...MovieStyles.year, paddingRight: 50 }}>
+                Cast: {item.cast}
+              </Text>
+              <Text
+                style={{
+                  ...MovieStyles.loadMore,
+                  color: "white",
+                  position: "absolute",
+                  right: 10,
+                  fontSize: 13,
+                  top: 1,
+                }}
+                onPress={openCloseDescription}
+              >
+                {showLines === 1 ? "Ver más" : "Ocultar"}
+              </Text>
+              <Text style={MovieStyles.year}>Creator: {item.director}</Text>
+            </View>
+            <View style={MovieStyles.actions}>
+              <View>
+                <AntDesign style={{ textAlign: "center" }} name="plus" size={24} color="white" />
+                <Text style={{ fontSize: 12, color: "white", marginTop: 3 }}>My List</Text>
+              </View>
+              <View>
+                <FontAwesome style={{ textAlign: "center" }} name="thumbs-o-up" size={24} color="white" />
+                <Text style={{ fontSize: 12, color: "white", marginTop: 3 }}>Calificar</Text>
+              </View>
+              <View>
+                <Entypo style={{ textAlign: "center" }} name="share" size={24} color="white" />
+                <Text style={{ fontSize: 12, color: "white", marginTop: 3 }}>Compartir</Text>
+              </View>
+              <View>
+                <FontAwesome name="download" style={{ textAlign: "center" }} size={24} color="white" />
+                <Text style={{ fontSize: 12, color: "white", marginTop: 3 }}>Download</Text>
+              </View>
+            </View>
+            <Tab value={tabActive} onChange={(e) => setTabActive(e)} indicatorStyle={MovieStyles.tabIndicator}>
+              <Tab.Item
+                containerStyle={MovieStyles.tabItemContainer}
+                title="SIMILARES"
+                titleStyle={{ fontSize: 12, fontWeight: "bold", color: "white" }}
+              />
+              <Tab.Item
+                containerStyle={MovieStyles.tabItemContainer}
+                title="TRÁILERES Y MÁS"
+                titleStyle={{ fontSize: 12, fontWeight: "bold", color: "white" }}
+              />
+            </Tab>
+            <TabView value={tabActive} onChange={setTabActive} animationType="timing">
+              <TabView.Item>{/* <TrendingComponent /> */}</TabView.Item>
+              <TabView.Item>{/* <TrendingComponent /> */}</TabView.Item>
+            </TabView>
           </View>
-          <View style={MovieStyles.info}>
-            <Text style={MovieStyles.match}>98% match</Text>
-            <Text style={MovieStyles.year}>1990</Text>
-            <View style={MovieStyles.ageContainer}>
-              <Text style={MovieStyles.age}>12+</Text>
-            </View>
-            <Text style={MovieStyles.year}>9 Seasons</Text>
-          </View>
-          <View style={MovieStyles.buttonContainer}>
-            <Pressable
-              style={{ ...MovieStyles.button, backgroundColor: "white" }}
-              onPress={() => {
-                if (isStarted === true) {
-                  setIsStarted(false);
-                }
-                navigation.navigate("WatchScreen", {});
-              }}
-            >
-              <Entypo name="controller-play" size={24} color="black" />
-              <Text style={{ fontSize: 17, fontWeight: "500", color: "black" }}>Ver</Text>
-            </Pressable>
-            <View style={{ paddingVertical: 5 }} />
-            <View style={{ ...MovieStyles.button, backgroundColor: "#252525" }}>
-              <FontAwesome name="download" size={24} color="white" style={{ paddingHorizontal: 5 }} />
-              <Text style={{ fontSize: 17, fontWeight: "500", color: "white" }}>Descargar</Text>
-            </View>
-          </View>
-          <Text style={MovieStyles.description}>
-            Durante numerosas misiones más que imposibles, Dom Toretto y su familia han sido capaces de ser más listos,
-            de tener más valor y de ir más rápido que cualquier enemigo que se cruzara con ellos. Pero ahora tendrán que
-            enfrentarse al oponente más letal que jamás hayan conocido: un terrible peligro que resurge del pasado, que
-            se mueve por una sangrienta sed de venganza y que está dispuesto a destrozar a la familia y destruir para
-            siempre todo lo que a Dom le importa.
-          </Text>
-          <View style={{ marginLeft: 12 }}>
-            <Text style={MovieStyles.year}>Cast: Crish Evans, Leonardo Dicaprio, Emma Stone, Cristopher Nolan</Text>
-            <Text style={MovieStyles.year}>Creator: Aaron Korsh</Text>
-          </View>
-          <View style={MovieStyles.actions}>
-            <View>
-              <AntDesign style={{ textAlign: "center" }} name="plus" size={24} color="white" />
-              <Text style={{ fontSize: 12, color: "white", marginTop: 3 }}>My List</Text>
-            </View>
-            <View>
-              <FontAwesome style={{ textAlign: "center" }} name="thumbs-o-up" size={24} color="white" />
-              <Text style={{ fontSize: 12, color: "white", marginTop: 3 }}>Calificar</Text>
-            </View>
-            <View>
-              <Entypo style={{ textAlign: "center" }} name="share" size={24} color="white" />
-              <Text style={{ fontSize: 12, color: "white", marginTop: 3 }}>Compartir</Text>
-            </View>
-            <View>
-              <FontAwesome name="download" style={{ textAlign: "center" }} size={24} color="white" />
-              <Text style={{ fontSize: 12, color: "white", marginTop: 3 }}>Download</Text>
-            </View>
-          </View>
-          <Tab value={tabActive} onChange={(e) => setTabActive(e)} indicatorStyle={MovieStyles.tabIndicator}>
-            <Tab.Item
-              containerStyle={MovieStyles.tabItemContainer}
-              title="SIMILARES"
-              titleStyle={{ fontSize: 12, fontWeight: "bold", color: "white" }}
-            />
-            <Tab.Item
-              containerStyle={MovieStyles.tabItemContainer}
-              title="TRÁILERES Y MÁS"
-              titleStyle={{ fontSize: 12, fontWeight: "bold", color: "white" }}
-            />
-          </Tab>
-          <TabView value={tabActive} onChange={setTabActive} animationType="timing">
-            <TabView.Item>
-              <TrendingComponent />
-            </TabView.Item>
-            <TabView.Item>
-              <TrendingComponent />
-            </TabView.Item>
-          </TabView>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { MoviePoster } from "../../components/Home/MoviePoster";
 import HomeStyles from "./Styles";
@@ -8,14 +8,8 @@ import MostPopularComponent from "../../components/Home/MostPopularComponent";
 import TrendingComponent from "../../components/Home/TrendingComponent";
 import Navbar from "../../components/Home/Navbar";
 import ProgressComponent from "../../components/Home/ProgressComponent";
-import useViewModel from "./ViewModel";
 
 const HomeScreen = () => {
-  const { topMovies, getTopMovies } = useViewModel();
-  useEffect(() => {
-    getTopMovies();
-  }, []);
-
   return (
     <>
       <View style={HomeStyles.container}>
@@ -28,7 +22,7 @@ const HomeScreen = () => {
           </GradientBackground>
           <View style={HomeStyles.flatListContainer}>
             {/* <ProgressComponent title="Avances" /> */}
-            <MostPopularComponent title="Las 10 películas más populares" movies={topMovies} />
+            <MostPopularComponent title="Las 10 películas más populares" />
             {/* <WatchingComponent title={`Continuar viendo contenido de Carlos`} /> */}
             {/* <TrendingComponent title="Tendencias ahora" /> */}
             {/* <TrendingComponent title="Volver a ver" /> */}

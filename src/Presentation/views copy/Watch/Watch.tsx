@@ -9,10 +9,8 @@ import { ResizeMode } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import WatchStyles from "./Styles";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamListApp } from "../../navigator/AppNavigation";
 
-const Header = ({ title }: any) => {
+const Header = () => {
   const navigation = useNavigation();
   const exit = async () => {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
@@ -24,15 +22,14 @@ const Header = ({ title }: any) => {
     <View style={WatchStyles.headerContainer}>
       <AntDesign name="left" size={24} color="white" onPress={exit} />
       <View style={WatchStyles.headerSeparator} />
-      <Text style={WatchStyles.headerText}>{title}</Text>
+      <Text style={WatchStyles.headerText}>Designated Survivor</Text>
     </View>
   );
 };
 
-interface Props extends StackScreenProps<RootStackParamListApp, "WatchScreen"> {}
-const Watch = ({ navigation, route }: Props) => {
+const Watch = () => {
   const [showView, setShowView] = useState(false);
-  const item: any = route.params;
+
   useEffect(() => {
     const delay = 2000;
     const timer = setTimeout(() => {
@@ -67,9 +64,9 @@ const Watch = ({ navigation, route }: Props) => {
         <VideoPlayer
           videoProps={{
             shouldPlay: true,
-            resizeMode: ResizeMode.COVER,
+            resizeMode: ResizeMode.STRETCH,
             source: {
-              uri: item.video,
+              uri: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
             },
           }}
           style={{
@@ -80,7 +77,7 @@ const Watch = ({ navigation, route }: Props) => {
           fullscreen={{
             visible: false,
           }}
-          header={<Header title={item.title} />}
+          header={<Header />}
         />
       )}
     </SafeAreaView>

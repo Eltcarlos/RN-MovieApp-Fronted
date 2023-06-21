@@ -2,9 +2,11 @@ import { Pressable, StyleSheet, Text, View, Image, ScrollView, FlatList, Touchab
 import React, { useEffect, useState } from "react";
 import { MovieSlider } from "./MovieSlider";
 import { useNavigation } from "@react-navigation/native";
+import { Movie } from "../../../Domain/entities/Movie";
 
 interface Props {
   title?: string;
+  movies: Movie[];
 }
 
 interface PropsTopTen {
@@ -26,20 +28,7 @@ const TopTen = ({ item, index }: PropsTopTen) => {
   );
 };
 
-const MostPopularComponent = ({ title }: Props) => {
-  const [movies, setMovies] = useState<any[]>([]);
-  useEffect(() => {
-    const movieData = async () => {
-      await fetch(
-        `https://api.themoviedb.org/3/trending/all/week?api_key=49d6be83fe4968b981c4322b48b33f2d&language=en-US&limit=10`
-      )
-        .then((response) => response.json())
-        .then((data) => setMovies(data.results));
-    };
-    movieData();
-  }, []);
-  console.log(movies[0]?.poster_path);
-
+const MostPopularComponent = ({ title, movies }: Props) => {
   return (
     <View
       style={{
@@ -52,7 +41,7 @@ const MostPopularComponent = ({ title }: Props) => {
       <FlatList
         data={movies}
         renderItem={({ item, index }: any) => <TopTen item={item} index={index} />}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id.toString()}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       />

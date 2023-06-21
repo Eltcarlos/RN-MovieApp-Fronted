@@ -9,8 +9,7 @@ const WatchStyles = StyleSheet.create({
   },
   headerContainer: {
     flexDirection: "row",
-    paddingVertical: 20,
-    paddingHorizontal: 5,
+    padding: 10,
   },
   headerText: {
     color: "white",
