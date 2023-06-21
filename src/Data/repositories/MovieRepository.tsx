@@ -3,11 +3,12 @@ import { ApiResponseTopMovies } from "../../Domain/entities/ApiResponse";
 import { Movie } from "../../Domain/entities/Movie";
 import { MovieRepository } from "../../Domain/repositories/MovieRepository";
 import { ApiBackend } from "../sources/remote/api/ApiBackend";
+import { ENV } from "../../Presentation/utils/contants/constants";
 
 export class MovieRepositoryImpl implements MovieRepository {
   async getTopMovies(): Promise<Movie[]> {
     try {
-      const response = await ApiBackend.get<Movie[]>(`/movie/moviesmostviews`);
+      const response = await ApiBackend.get<Movie[]>(`${ENV.API_ROUTES.TOPTENMOVIES}`);
       return Promise.resolve(response.data);
     } catch (error) {
       let e = error as AxiosError;
