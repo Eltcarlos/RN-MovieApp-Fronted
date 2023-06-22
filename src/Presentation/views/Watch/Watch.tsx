@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Dimensions } from "react-native";
+import { Text, View, Dimensions, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as NavigationBar from "expo-navigation-bar";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
 import VideoPlayer from "expo-video-player";
-import { ResizeMode } from "expo-av";
+import { ResizeMode, Video } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import WatchStyles from "./Styles";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamListApp } from "../../navigator/AppNavigation";
+import useViewModel from "./ViewModel";
+import socket from "../../utils/Socket/SocketIO";
+import { Button } from "react-native-elements";
 
 const Header = ({ title }: any) => {
   const navigation = useNavigation();
@@ -31,8 +34,10 @@ const Header = ({ title }: any) => {
 
 interface Props extends StackScreenProps<RootStackParamListApp, "WatchScreen"> {}
 const Watch = ({ navigation, route }: Props) => {
-  const [showView, setShowView] = useState(false);
   const item: any = route.params;
+  const [showControls, setShowControls] = useState(true);
+  const { showView, video, setShowView } = useViewModel(item);
+
   useEffect(() => {
     const delay = 2000;
     const timer = setTimeout(() => {
@@ -59,29 +64,61 @@ const Watch = ({ navigation, route }: Props) => {
     changeScreenOrientation();
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("beforeRemove", () => {
+      console.log("EVENTO: beforeRemove");
+      socket.disconnect();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (showControls) {
+      timer = setTimeout(() => {
+        setShowControls(false);
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [showControls]);
+
+  const handlePlayPause = async () => {
+    if (video.current) {
+      await video.current.playAsync();
+    }
+  };
+
+  const toggleControls = () => {
+    setShowControls(!showControls);
+  };
+
   return (
     <SafeAreaView style={WatchStyles.container}>
-      <StatusBar hidden={true} />
-      {showView && (
-        <VideoPlayer
-          videoProps={{
-            shouldPlay: true,
-            resizeMode: ResizeMode.COVER,
-            source: {
-              uri: item.video,
-            },
-          }}
-          style={{
-            videoBackgroundColor: "black",
-            height: Dimensions.get("window").height - 20,
-            width: Dimensions.get("window").width,
-          }}
-          fullscreen={{
-            visible: false,
-          }}
-          header={<Header title={item.title} />}
-        />
-      )}
+      <Pressable onPress={toggleControls}>
+        <StatusBar hidden={true} />
+        {showView && (
+          <Video
+            ref={video}
+            source={{ uri: item.video }}
+            style={{ height: "100%", width: "100%" }}
+            isLooping
+            shouldPlay={showView}
+            resizeMode={ResizeMode.STRETCH}
+          />
+        )}
+        {showControls && (
+          <View style={WatchStyles.controls}>
+            <Header title={item.title} />
+            <View style={WatchStyles.actions}>
+              <Button title="Play" onPress={handlePlayPause} />
+            </View>
+          </View>
+        )}
+      </Pressable>
     </SafeAreaView>
   );
 };

@@ -3,7 +3,7 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Navbar = ({ children }: any) => {
+const Navbar = ({ children, user }: any) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -14,7 +14,7 @@ const Navbar = ({ children }: any) => {
           <FontAwesome5 name="search" size={18} color="white" />
           <View style={styles.spacer} />
 
-          <Image style={styles.logo} source={require("../../../../assets/default-blue.png")} />
+          <Image style={styles.logo} source={{ uri: user.image }} />
         </View>
       </View>
       {children}
