@@ -6,17 +6,17 @@ import { TimeLine } from "../Shared/TimeLine";
 
 interface Props {
   title?: string;
+  movies: any;
 }
 
 interface PropsTopTen {
   item?: any;
-  index?: any;
 }
 
-const WatchingView = ({ item, index }: PropsTopTen) => {
+const WatchingView = ({ item }: PropsTopTen) => {
   const status = {
-    playableDurationMillis: 2,
-    positionMillis: 2,
+    playableDurationMillis: item.duration * 60 * 1000,
+    positionMillis: item.elapsedTime,
   };
   return (
     <View style={styles.Container}>
@@ -34,31 +34,19 @@ const WatchingView = ({ item, index }: PropsTopTen) => {
   );
 };
 
-const WatchingComponent = ({ title }: Props) => {
-  const [movies, setMovies] = useState<any[]>([]);
-  useEffect(() => {
-    const movieData = async () => {
-      await fetch(
-        `https://api.themoviedb.org/3/trending/all/week?api_key=49d6be83fe4968b981c4322b48b33f2d&language=en-US&limit=10`
-      )
-        .then((response) => response.json())
-        .then((data) => setMovies(data.results));
-    };
-    movieData();
-  }, []);
-  console.log(movies[0]?.poster_path);
-
+const WatchingComponent = ({ title, movies }: Props) => {
   return (
     <View
       style={{
         height: title ? 260 : 220,
+        marginBottom: 30,
       }}
     >
       {title && <Text style={styles.text}>{title}</Text>}
       <View>
         <FlatList
           data={movies}
-          renderItem={({ item, index }: any) => <WatchingView item={item} index={index} />}
+          renderItem={({ item, index }: any) => <WatchingView item={item} />}
           keyExtractor={(item) => item.id.toString()}
           horizontal={true}
           showsHorizontalScrollIndicator={false}

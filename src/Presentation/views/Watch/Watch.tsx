@@ -14,6 +14,7 @@ import { RootStackParamListApp } from "../../navigator/AppNavigation";
 import useViewModel from "./ViewModel";
 import socket from "../../utils/Socket/SocketIO";
 import { Button } from "react-native-elements";
+import { useSelector } from "react-redux";
 
 const Header = ({ title }: any) => {
   const navigation = useNavigation();
@@ -35,8 +36,9 @@ const Header = ({ title }: any) => {
 interface Props extends StackScreenProps<RootStackParamListApp, "WatchScreen"> {}
 const Watch = ({ navigation, route }: Props) => {
   const item: any = route.params;
+  const user = useSelector((store: any) => store.user);
   const [showControls, setShowControls] = useState(true);
-  const { showView, video, setShowView } = useViewModel(item);
+  const { showView, video, setShowView } = useViewModel(item, user);
 
   useEffect(() => {
     const delay = 2000;

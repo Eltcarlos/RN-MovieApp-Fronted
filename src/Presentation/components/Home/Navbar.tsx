@@ -1,9 +1,13 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../../store/User/User";
 
 const Navbar = ({ children, user }: any) => {
+  const dispatch = useDispatch();
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -14,7 +18,9 @@ const Navbar = ({ children, user }: any) => {
           <FontAwesome5 name="search" size={18} color="white" />
           <View style={styles.spacer} />
 
-          <Image style={styles.logo} source={{ uri: user.image }} />
+          <TouchableOpacity onPress={() => dispatch(clearUser())}>
+            <Image style={styles.logo} source={{ uri: user.image }} />
+          </TouchableOpacity>
         </View>
       </View>
       {children}

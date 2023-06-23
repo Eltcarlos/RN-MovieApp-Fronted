@@ -10,12 +10,20 @@ import ProgressComponent from "../../components/Home/ProgressComponent";
 import useViewModel from "./ViewModel";
 import { StatusBar } from "expo-status-bar";
 import { useSelector } from "react-redux";
+import socket from "../../utils/Socket/SocketIO";
 
 const HomeScreen = () => {
-  const { topMovies, getTopMovies } = useViewModel();
+  const { topMovies, watchingMovies, setWatchingMovies, getTopMovies } = useViewModel();
   const user = useSelector((store: any) => store.user);
   useEffect(() => {
     getTopMovies();
+  }, []);
+
+  useEffect(() => {
+    socket.connect();
+    socket.on("watchingMovies", async (data) => {
+      setWatchingMovies(data);
+    });
   }, []);
 
   return (
@@ -33,8 +41,8 @@ const HomeScreen = () => {
           <View style={HomeStyles.flatListContainer}>
             {/* <ProgressComponent title="Avances" /> */}
             <MostPopularComponent title="Las 10 películas más populares" movies={topMovies} />
-            {user.currentlyWatching.length !== 0 && (
-              <WatchingComponent title={`Continuar viendo contenido de ${user.name}`} />
+            {watchingMovies.length !== 0 && (
+              <WatchingComponent title={`Continuar viendo contenido de ${user.name}`} movies={watchingMovies} />
             )}
             {/* <TrendingComponent title="Tendencias ahora" /> */}
 

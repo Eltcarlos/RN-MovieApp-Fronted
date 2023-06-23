@@ -68,7 +68,7 @@ const MovieScreen = ({ navigation, route }: Props) => {
                   if (isStarted === true) {
                     setIsStarted(false);
                   }
-                  navigation.navigate("WatchScreen", { id: item._id, title: item.title, video: item.video });
+                  navigation.navigate("WatchScreen", { _id: item._id, title: item.title, video: item.video });
                 }}
               >
                 <Entypo name="controller-play" size={24} color="black" />
