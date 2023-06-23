@@ -4,6 +4,10 @@ import socket from "../../utils/Socket/SocketIO";
 const WatchViewModel = (item: any, user: any) => {
   const [showView, setShowView] = useState(false);
   const [videoStatus, setVideoStatus] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [totalDuration, setTotalDuration] = useState(0);
+
   const video: any = useRef(null);
 
   //180000
@@ -38,6 +42,12 @@ const WatchViewModel = (item: any, user: any) => {
     showView,
     videoStatus,
     video,
+    isPlaying,
+    currentTime,
+    totalDuration,
+    setTotalDuration,
+    setCurrentTime,
+    setIsPlaying,
     setVideoStatus,
     setShowView,
   };

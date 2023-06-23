@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Dimensions, Pressable } from "react-native";
+import { Text, View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as NavigationBar from "expo-navigation-bar";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
-import VideoPlayer from "expo-video-player";
 import { ResizeMode, Video } from "expo-av";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Entypo, FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import WatchStyles from "./Styles";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamListApp } from "../../navigator/AppNavigation";
 import useViewModel from "./ViewModel";
 import socket from "../../utils/Socket/SocketIO";
-import { Button } from "react-native-elements";
 import { useSelector } from "react-redux";
+import { Slider } from "react-native-elements";
 
 const Header = ({ title }: any) => {
   const navigation = useNavigation();
@@ -38,7 +37,17 @@ const Watch = ({ navigation, route }: Props) => {
   const item: any = route.params;
   const user = useSelector((store: any) => store.user);
   const [showControls, setShowControls] = useState(true);
-  const { showView, video, setShowView } = useViewModel(item, user);
+  const {
+    showView,
+    video,
+    isPlaying,
+    currentTime,
+    totalDuration,
+    setTotalDuration,
+    setCurrentTime,
+    setIsPlaying,
+    setShowView,
+  } = useViewModel(item, user);
 
   useEffect(() => {
     const delay = 2000;
@@ -88,14 +97,45 @@ const Watch = ({ navigation, route }: Props) => {
     };
   }, [showControls]);
 
-  const handlePlayPause = async () => {
-    if (video.current) {
-      await video.current.playAsync();
-    }
-  };
-
   const toggleControls = () => {
     setShowControls(!showControls);
+  };
+
+  const handlePlaybackStatusUpdate = (status: any) => {
+    setCurrentTime(status.positionMillis || 0);
+    setTotalDuration(status.durationMillis || 0);
+  };
+
+  const handleSliderValueChange = (value: any) => {
+    setCurrentTime(value);
+    video.current.setPositionAsync(value);
+  };
+
+  const handleSliderSlidingComplete = (value: any) => {
+    setCurrentTime(value);
+    video.current.setPositionAsync(value);
+  };
+
+  const handlePlay = async () => {
+    await video.current.playAsync();
+    setIsPlaying(true);
+  };
+
+  const handlePause = async () => {
+    await video.current.pauseAsync();
+    setIsPlaying(false);
+  };
+
+  const handleSkipRight = async () => {
+    const newPosition = currentTime + 10000; // Avanza 10 segundos (10000 milisegundos)
+    video.current.setPositionAsync(newPosition);
+    setCurrentTime(newPosition);
+  };
+
+  const handleSkipLeft = async () => {
+    const newPosition = currentTime - 10000; // Avanza 10 segundos (10000 milisegundos)
+    video.current.setPositionAsync(newPosition);
+    setCurrentTime(newPosition);
   };
 
   return (
@@ -111,13 +151,43 @@ const Watch = ({ navigation, route }: Props) => {
             shouldPlay={showView}
             resizeMode={ResizeMode.STRETCH}
             positionMillis={item.position || 0}
+            onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
           />
         )}
         {showControls && (
           <View style={WatchStyles.controls}>
             <Header title={item.title} />
             <View style={WatchStyles.actions}>
-              <Button title="Play" onPress={handlePlayPause} />
+              <Pressable onPress={handleSkipLeft}>
+                <MaterialCommunityIcons name="rotate-left" size={50} color="white" />
+                <Text style={WatchStyles.textRotate}>10</Text>
+              </Pressable>
+              <View style={WatchStyles.actionSeparator} />
+              {isPlaying ? (
+                <Ionicons name="pause" size={90} color="white" onPress={handlePause} />
+              ) : (
+                <Entypo name="controller-play" size={90} color="white" onPress={handlePlay} />
+              )}
+              <View style={WatchStyles.actionSeparator} />
+              <Pressable onPress={handleSkipRight}>
+                <MaterialCommunityIcons name="rotate-right" size={50} color="white" />
+                <Text style={WatchStyles.textRotate}>10</Text>
+              </Pressable>
+            </View>
+            <View style={WatchStyles.timeLine}>
+              <Slider
+                style={WatchStyles.slider}
+                minimumValue={0}
+                maximumValue={totalDuration}
+                value={currentTime}
+                onValueChange={handleSliderValueChange}
+                onSlidingComplete={handleSliderSlidingComplete}
+                trackStyle={{ height: 5, backgroundColor: "transparent" }}
+                thumbStyle={{ height: 20, width: 20, backgroundColor: "red" }}
+                minimumTrackTintColor="red"
+                animateTransitions={true}
+                animationType="spring"
+              />
             </View>
           </View>
         )}
