@@ -110,6 +110,7 @@ const Watch = ({ navigation, route }: Props) => {
             isLooping
             shouldPlay={showView}
             resizeMode={ResizeMode.STRETCH}
+            positionMillis={item.position || 0}
           />
         )}
         {showControls && (

@@ -1,8 +1,9 @@
-import { Pressable, StyleSheet, Text, View, Image, ScrollView, FlatList } from "react-native";
+import { Pressable, StyleSheet, Text, View, Image, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { MovieSlider } from "./MovieSlider";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { TimeLine } from "../Shared/TimeLine";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {
   title?: string;
@@ -18,8 +19,10 @@ const WatchingView = ({ item }: PropsTopTen) => {
     playableDurationMillis: item.duration * 60 * 1000,
     positionMillis: item.elapsedTime,
   };
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.Container}>
+    <TouchableOpacity style={styles.Container} onPress={() => navigation.navigate("MovieScreen", item)}>
       <View style={styles.imgContainer}>
         <MovieSlider movie={item} width={155} height={200} />
       </View>
@@ -30,7 +33,7 @@ const WatchingView = ({ item }: PropsTopTen) => {
         <View style={{ paddingHorizontal: 30 }} />
         <Entypo style={{ textAlign: "center" }} name="dots-three-vertical" size={25} color="white" />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -39,7 +42,7 @@ const WatchingComponent = ({ title, movies }: Props) => {
     <View
       style={{
         height: title ? 260 : 220,
-        marginBottom: 30,
+        marginBottom: 50,
       }}
     >
       {title && <Text style={styles.text}>{title}</Text>}
@@ -76,6 +79,8 @@ const styles = StyleSheet.create({
     marginLeft: 9,
     alignItems: "center",
     borderColor: "white",
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
   },
   imgContainer: {
     flex: 1,

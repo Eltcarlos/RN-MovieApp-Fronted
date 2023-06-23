@@ -21,7 +21,6 @@ const WatchViewModel = (item: any, user: any) => {
     try {
       if (video.current) {
         const status = await video.current.getStatusAsync();
-        console.log(status);
         const positionMillis = status.positionMillis;
         socket.connect();
         socket.emit("positionMillis", {
