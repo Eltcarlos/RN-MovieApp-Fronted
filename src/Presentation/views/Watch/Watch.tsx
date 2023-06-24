@@ -140,9 +140,9 @@ const Watch = ({ navigation, route }: Props) => {
 
   return (
     <SafeAreaView style={WatchStyles.container}>
-      <Pressable onPress={toggleControls}>
-        <StatusBar hidden={true} />
-        {showView && (
+      {showView && (
+        <Pressable onPress={toggleControls}>
+          <StatusBar hidden={true} />
           <Video
             ref={video}
             source={{ uri: item.video }}
@@ -153,45 +153,46 @@ const Watch = ({ navigation, route }: Props) => {
             positionMillis={item.position || 0}
             onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
           />
-        )}
-        {showControls && (
-          <View style={WatchStyles.controls}>
-            <Header title={item.title} />
-            <View style={WatchStyles.actions}>
-              <Pressable onPress={handleSkipLeft}>
-                <MaterialCommunityIcons name="rotate-left" size={50} color="white" />
-                <Text style={WatchStyles.textRotate}>10</Text>
-              </Pressable>
-              <View style={WatchStyles.actionSeparator} />
-              {isPlaying ? (
-                <Ionicons name="pause" size={90} color="white" onPress={handlePause} />
-              ) : (
-                <Entypo name="controller-play" size={90} color="white" onPress={handlePlay} />
-              )}
-              <View style={WatchStyles.actionSeparator} />
-              <Pressable onPress={handleSkipRight}>
-                <MaterialCommunityIcons name="rotate-right" size={50} color="white" />
-                <Text style={WatchStyles.textRotate}>10</Text>
-              </Pressable>
+
+          {showControls && (
+            <View style={WatchStyles.controls}>
+              <Header title={item.title} />
+              <View style={WatchStyles.actions}>
+                <Pressable onPress={handleSkipLeft}>
+                  <MaterialCommunityIcons name="rotate-left" size={50} color="white" />
+                  <Text style={WatchStyles.textRotate}>10</Text>
+                </Pressable>
+                <View style={WatchStyles.actionSeparator} />
+                {isPlaying ? (
+                  <Ionicons name="pause" size={90} color="white" onPress={handlePause} />
+                ) : (
+                  <Entypo name="controller-play" size={90} color="white" onPress={handlePlay} />
+                )}
+                <View style={WatchStyles.actionSeparator} />
+                <Pressable onPress={handleSkipRight}>
+                  <MaterialCommunityIcons name="rotate-right" size={50} color="white" />
+                  <Text style={WatchStyles.textRotate}>10</Text>
+                </Pressable>
+              </View>
+              <View style={WatchStyles.timeLine}>
+                <Slider
+                  style={WatchStyles.slider}
+                  minimumValue={0}
+                  maximumValue={totalDuration}
+                  value={currentTime}
+                  onValueChange={handleSliderValueChange}
+                  onSlidingComplete={handleSliderSlidingComplete}
+                  trackStyle={{ height: 5, backgroundColor: "transparent" }}
+                  thumbStyle={{ height: 20, width: 20, backgroundColor: "red" }}
+                  minimumTrackTintColor="red"
+                  animateTransitions={true}
+                  animationType="spring"
+                />
+              </View>
             </View>
-            <View style={WatchStyles.timeLine}>
-              <Slider
-                style={WatchStyles.slider}
-                minimumValue={0}
-                maximumValue={totalDuration}
-                value={currentTime}
-                onValueChange={handleSliderValueChange}
-                onSlidingComplete={handleSliderSlidingComplete}
-                trackStyle={{ height: 5, backgroundColor: "transparent" }}
-                thumbStyle={{ height: 20, width: 20, backgroundColor: "red" }}
-                minimumTrackTintColor="red"
-                animateTransitions={true}
-                animationType="spring"
-              />
-            </View>
-          </View>
-        )}
-      </Pressable>
+          )}
+        </Pressable>
+      )}
     </SafeAreaView>
   );
 };

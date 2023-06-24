@@ -42,7 +42,6 @@ const WatchingComponent = ({ title, movies }: Props) => {
     <View
       style={{
         height: title ? 260 : 220,
-        marginBottom: 50,
       }}
     >
       {title && <Text style={styles.text}>{title}</Text>}
@@ -50,7 +49,7 @@ const WatchingComponent = ({ title, movies }: Props) => {
         <FlatList
           data={movies}
           renderItem={({ item, index }: any) => <WatchingView item={item} />}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item._id.toString()}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         />

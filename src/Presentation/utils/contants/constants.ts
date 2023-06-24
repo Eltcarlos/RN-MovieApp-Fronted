@@ -3,5 +3,7 @@ export const ENV = {
     REGISTER: "/auth/signup",
     LOGIN: "/auth/login",
     TOPTENMOVIES: "/movie/moviesmostviews",
+    GETUSER: "/user/getuser",
+    GETWATCHLIST: "/movie/getwatchlist",
   },
 };

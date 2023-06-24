@@ -9,9 +9,11 @@ import MovieStyles from "./Styles";
 import useViewModel from "./ViewModel";
 import { AntDesign, Entypo, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tab, TabView } from "react-native-elements";
+import { useSelector } from "react-redux";
 
 interface Props extends StackScreenProps<RootStackParamListApp, "MovieScreen"> {}
 const MovieScreen = ({ navigation, route }: Props) => {
+  const user = useSelector((store: any) => store.user);
   const item: any = route.params;
   const {
     video,
@@ -23,8 +25,9 @@ const MovieScreen = ({ navigation, route }: Props) => {
     setTabActive,
     setVideoStatus,
     startPauseVideo,
+    myListHandle,
     setIsStarted,
-  } = useViewModel();
+  } = useViewModel(user, item);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <ScrollView>
@@ -107,7 +110,7 @@ const MovieScreen = ({ navigation, route }: Props) => {
             </View>
             <View style={MovieStyles.actions}>
               <View>
-                <AntDesign style={{ textAlign: "center" }} name="plus" size={24} color="white" />
+                <AntDesign style={{ textAlign: "center" }} name="plus" size={24} color="white" onPress={myListHandle} />
                 <Text style={{ fontSize: 12, color: "white", marginTop: 3 }}>My List</Text>
               </View>
               <View>

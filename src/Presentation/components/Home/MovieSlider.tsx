@@ -1,7 +1,6 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Movie } from "../../../Domain/entities/Movie";
 
 interface Props {
@@ -11,9 +10,11 @@ interface Props {
 }
 
 export const MovieSlider = ({ movie, height = 420, width = 300 }: Props) => {
+  const navigation = useNavigation();
+
   return (
     <TouchableOpacity
-      onPress={() => {}}
+      onPress={() => navigation.navigate("MovieScreen", movie)}
       activeOpacity={0.8}
       style={{
         width,

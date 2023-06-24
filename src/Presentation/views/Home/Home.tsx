@@ -13,16 +13,41 @@ import { useSelector } from "react-redux";
 import socket from "../../utils/Socket/SocketIO";
 
 const HomeScreen = () => {
-  const { topMovies, watchingMovies, setWatchingMovies, getTopMovies } = useViewModel();
   const user = useSelector((store: any) => store.user);
+  const {
+    topMovies,
+    watchingMovies,
+    watchListMovies,
+    getWatchList,
+    getUser,
+    setWatchListMovies,
+    setWatchingMovies,
+    getTopMovies,
+  } = useViewModel(user);
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   useEffect(() => {
     getTopMovies();
+  }, []);
+
+  useEffect(() => {
+    getWatchList();
   }, []);
 
   useEffect(() => {
     socket.connect();
     socket.on("watchingMovies", async (data) => {
       setWatchingMovies(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.connect();
+    socket.on("my-list-get", async (data) => {
+      setWatchListMovies(data);
     });
   }, []);
 
@@ -44,7 +69,7 @@ const HomeScreen = () => {
             {watchingMovies.length !== 0 && (
               <WatchingComponent title={`Continuar viendo contenido de ${user.name}`} movies={watchingMovies} />
             )}
-            {/* <TrendingComponent title="Tendencias ahora" /> */}
+            {watchListMovies.length !== 0 && <TrendingComponent title="Mi lista" movies={watchListMovies} />}
 
             {/* <TrendingComponent title="Volver a ver" /> */}
           </View>

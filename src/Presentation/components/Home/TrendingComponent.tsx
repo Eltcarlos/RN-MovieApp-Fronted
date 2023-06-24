@@ -4,22 +4,11 @@ import { MovieSlider } from "./MovieSlider";
 
 interface Props {
   title?: string;
+  movies: any;
 }
 
-const TrendingComponent = ({ title }: Props) => {
-  const [movies, setMovies] = useState<any[]>([]);
-  useEffect(() => {
-    const movieData = async () => {
-      await fetch(
-        `https://api.themoviedb.org/3/trending/all/week?api_key=49d6be83fe4968b981c4322b48b33f2d&language=en-US&limit=10`
-      )
-        .then((response) => response.json())
-        .then((data) => setMovies(data.results));
-    };
-    movieData();
-  }, []);
-  console.log(movies[0]?.poster_path);
-
+const TrendingComponent = ({ title, movies }: Props) => {
+  console.log(movies);
   return (
     <View
       style={{
@@ -33,7 +22,7 @@ const TrendingComponent = ({ title }: Props) => {
       <FlatList
         data={movies}
         renderItem={({ item, index }: any) => <MovieSlider movie={item} width={140} height={200} />}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id.toString()}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       />

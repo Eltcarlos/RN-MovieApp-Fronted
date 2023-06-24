@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Movie } from "../../../Domain/entities/Movie";
+import socket from "../../utils/Socket/SocketIO";
 
-const MovieViewModel = () => {
+const MovieViewModel = (user: any, item: Movie) => {
   const [isStarted, setIsStarted] = useState(false);
   const [videoStatus, setVideoStatus] = useState(0);
   const video = useRef(null);
@@ -19,6 +20,14 @@ const MovieViewModel = () => {
     }
   }, []);
 
+  const myListHandle = () => {
+    socket.connect();
+    socket.emit("my-list-add", {
+      user: user.id,
+      movieId: item._id,
+    });
+  };
+
   return {
     isStarted,
     videoStatus,
@@ -32,6 +41,7 @@ const MovieViewModel = () => {
     setTabActive,
     showLines,
     openCloseDescription,
+    myListHandle,
   };
 };
 
