@@ -1,5 +1,5 @@
 import { StackScreenProps } from "@react-navigation/stack";
-import React from "react";
+import React, { useEffect } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { RootStackParamListApp } from "../../navigator/AppNavigation";
 import { Video, ResizeMode } from "expo-av";
@@ -10,6 +10,7 @@ import useViewModel from "./ViewModel";
 import { AntDesign, Entypo, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tab, TabView } from "react-native-elements";
 import { useSelector } from "react-redux";
+import TrendingComponent from "../../components/Home/TrendingComponent";
 
 interface Props extends StackScreenProps<RootStackParamListApp, "MovieScreen"> {}
 const MovieScreen = ({ navigation, route }: Props) => {
@@ -17,10 +18,11 @@ const MovieScreen = ({ navigation, route }: Props) => {
   const item: any = route.params;
   const {
     video,
-    videoStatus,
     isStarted,
     tabActive,
     showLines,
+    similarMovies,
+    getSimilarMovies,
     openCloseDescription,
     setTabActive,
     setVideoStatus,
@@ -28,6 +30,11 @@ const MovieScreen = ({ navigation, route }: Props) => {
     myListHandle,
     setIsStarted,
   } = useViewModel(user, item);
+
+  useEffect(() => {
+    getSimilarMovies();
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <ScrollView>
@@ -139,7 +146,9 @@ const MovieScreen = ({ navigation, route }: Props) => {
               />
             </Tab>
             <TabView value={tabActive} onChange={setTabActive} animationType="timing">
-              <TabView.Item>{/* <TrendingComponent /> */}</TabView.Item>
+              <TabView.Item>
+                <TrendingComponent movies={similarMovies} />
+              </TabView.Item>
               <TabView.Item>{/* <TrendingComponent /> */}</TabView.Item>
             </TabView>
           </View>

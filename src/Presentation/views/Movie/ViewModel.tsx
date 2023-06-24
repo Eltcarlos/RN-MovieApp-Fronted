@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Movie } from "../../../Domain/entities/Movie";
 import socket from "../../utils/Socket/SocketIO";
+import { GetSimilarMoviesUseCase } from "../../../Domain/useCases/movie/GerSimilarMovies";
 
 const MovieViewModel = (user: any, item: Movie) => {
   const [isStarted, setIsStarted] = useState(false);
   const [videoStatus, setVideoStatus] = useState(0);
+  const [similarMovies, setSimilarMovies] = useState({});
   const video = useRef(null);
   const startPauseVideo = () => setIsStarted((prevState) => !prevState);
   const [movie, setMovie] = useState<Movie | undefined>(undefined);
@@ -28,10 +30,17 @@ const MovieViewModel = (user: any, item: Movie) => {
     });
   };
 
+  const getSimilarMovies = async () => {
+    const result = await GetSimilarMoviesUseCase(item);
+    setSimilarMovies(result);
+  };
+
   return {
     isStarted,
     videoStatus,
     setVideoStatus,
+    getSimilarMovies,
+    similarMovies,
     video,
     startPauseVideo,
     setIsStarted,

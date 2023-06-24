@@ -5,6 +5,7 @@ import { GetUserUseCase } from "../../../Domain/useCases/user/GetUser";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/User/User";
 import { GetWatchListUseCase } from "../../../Domain/useCases/movie/GetWatchList";
+import { GetWatchingListUseCase } from "../../../Domain/useCases/movie/GetWatchingList";
 
 const HomeViewModel = (user: any) => {
   const [topMovies, setTopMovies] = useState<Movie[]>([]);
@@ -31,11 +32,17 @@ const HomeViewModel = (user: any) => {
     setWatchListMovies(result);
   };
 
+  const getWatchingList = async () => {
+    const result = await GetWatchingListUseCase(user.currentlyWatching);
+    setWatchingMovies(result);
+  };
+
   return {
     topMovies,
     watchingMovies,
     setWatchingMovies,
     watchListMovies,
+    getWatchingList,
     setWatchListMovies,
     getWatchList,
     getTopMovies,

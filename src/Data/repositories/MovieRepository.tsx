@@ -26,4 +26,24 @@ export class MovieRepositoryImpl implements MovieRepository {
       return Promise.resolve([]);
     }
   }
+  async getWatchingList(watchinglist: any): Promise<Movie[]> {
+    try {
+      const response = await ApiBackend.post<Movie[]>(`${ENV.API_ROUTES.GETWATCHINGLIST}`, { watchinglist });
+      return Promise.resolve(response.data);
+    } catch (error) {
+      let e = error as AxiosError;
+      console.log("ERROR: " + JSON.stringify(e.response?.data));
+      return Promise.resolve([]);
+    }
+  }
+  async getSimilarMovies(movie: Movie): Promise<Movie[]> {
+    try {
+      const response = await ApiBackend.post<Movie[]>(`${ENV.API_ROUTES.GETSIMILARMOVIES}`, { movie });
+      return Promise.resolve(response.data);
+    } catch (error) {
+      let e = error as AxiosError;
+      console.log("ERROR: " + JSON.stringify(e.response?.data));
+      return Promise.resolve([]);
+    }
+  }
 }

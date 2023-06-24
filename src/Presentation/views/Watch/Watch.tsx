@@ -185,8 +185,6 @@ const Watch = ({ navigation, route }: Props) => {
                   trackStyle={{ height: 5, backgroundColor: "transparent" }}
                   thumbStyle={{ height: 20, width: 20, backgroundColor: "red" }}
                   minimumTrackTintColor="red"
-                  animateTransitions={true}
-                  animationType="spring"
                 />
               </View>
             </View>

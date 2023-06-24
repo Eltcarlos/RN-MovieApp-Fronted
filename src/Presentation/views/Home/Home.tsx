@@ -19,6 +19,7 @@ const HomeScreen = () => {
     watchingMovies,
     watchListMovies,
     getWatchList,
+    getWatchingList,
     getUser,
     setWatchListMovies,
     setWatchingMovies,
@@ -35,6 +36,10 @@ const HomeScreen = () => {
 
   useEffect(() => {
     getWatchList();
+  }, []);
+
+  useEffect(() => {
+    getWatchingList();
   }, []);
 
   useEffect(() => {
