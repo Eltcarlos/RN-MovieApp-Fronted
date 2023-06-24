@@ -11,6 +11,7 @@ import { AntDesign, Entypo, FontAwesome, MaterialCommunityIcons } from "@expo/ve
 import { Tab, TabView } from "react-native-elements";
 import { useSelector } from "react-redux";
 import TrendingComponent from "../../components/Home/TrendingComponent";
+import More from "../../components/Movie/More";
 
 interface Props extends StackScreenProps<RootStackParamListApp, "MovieScreen"> {}
 const MovieScreen = ({ navigation, route }: Props) => {
@@ -149,7 +150,9 @@ const MovieScreen = ({ navigation, route }: Props) => {
               <TabView.Item>
                 <TrendingComponent movies={similarMovies} />
               </TabView.Item>
-              <TabView.Item>{/* <TrendingComponent /> */}</TabView.Item>
+              <TabView.Item>
+                <More item={item} />
+              </TabView.Item>
             </TabView>
           </View>
         </View>
