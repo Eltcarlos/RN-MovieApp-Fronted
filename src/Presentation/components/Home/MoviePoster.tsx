@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/core";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Entypo } from "@expo/vector-icons";
 import { GetPosterUseCase } from "../../../Domain/useCases/movie/GetPoster";
+import { ActivityIndicator } from "react-native";
 
 export const MoviePoster = () => {
   const [movie, setMovie] = useState<any>({});
@@ -17,8 +18,6 @@ export const MoviePoster = () => {
   useEffect(() => {
     getPoster();
   }, []);
-
-  console.log(movie);
 
   return (
     <>

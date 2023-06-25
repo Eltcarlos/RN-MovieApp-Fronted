@@ -32,6 +32,7 @@ const WatchViewModel = (item: any, user: any) => {
           id: item._id,
           positionMillis,
         });
+        socket.disconnect();
       }
     } catch (error) {
       console.error("Error al obtener la posición del video:", error);

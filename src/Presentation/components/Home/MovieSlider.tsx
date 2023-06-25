@@ -1,7 +1,8 @@
-import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { Movie } from "../../../Domain/entities/Movie";
+import { ActivityIndicator } from "react-native";
 
 interface Props {
   movie: Movie;

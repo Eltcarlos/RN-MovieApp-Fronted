@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { MoviePoster } from "../../components/Home/MoviePoster";
 import HomeStyles from "./Styles";
@@ -6,7 +6,6 @@ import WatchingComponent from "../../components/Home/WatchingComponent";
 import MostPopularComponent from "../../components/Home/MostPopularComponent";
 import TrendingComponent from "../../components/Home/TrendingComponent";
 import Navbar from "../../components/Home/Navbar";
-import ProgressComponent from "../../components/Home/ProgressComponent";
 import useViewModel from "./ViewModel";
 import { StatusBar } from "expo-status-bar";
 import { useSelector } from "react-redux";
@@ -14,6 +13,9 @@ import socket from "../../utils/Socket/SocketIO";
 
 const HomeScreen = () => {
   const user = useSelector((store: any) => store.user);
+  const scrollViewRef = useRef(null);
+  const [isScrollEnd, setIsScrollEnd] = useState(false);
+
   const {
     topMovies,
     watchingMovies,
@@ -86,20 +88,23 @@ const HomeScreen = () => {
     socket.on("watchingMovies", async (data) => {
       setWatchingMovies(data);
     });
-  }, []);
-
-  useEffect(() => {
-    socket.connect();
     socket.on("my-list-get", async (data) => {
       setWatchListMovies(data);
     });
+    socket.disconnect();
   }, []);
+
+  const handleScroll = (event: any) => {
+    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+    const paddingToBottom = 20;
+    setIsScrollEnd(layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom);
+  };
 
   return (
     <>
       <View style={HomeStyles.container}>
         <StatusBar backgroundColor="black" />
-        <ScrollView>
+        <ScrollView ref={scrollViewRef} onScroll={handleScroll} scrollEventThrottle={16}>
           <View style={HomeStyles.navAndPoster}>
             <Navbar user={user}>
               <View style={HomeStyles.ImgContainer}>
@@ -108,25 +113,72 @@ const HomeScreen = () => {
             </Navbar>
           </View>
           <View style={HomeStyles.flatListContainer}>
-            <MostPopularComponent title="Las 10 películas más populares" movies={topMovies} />
-            <TrendingComponent title="Peliculas de Terror" movies={moviesTerror} />
-            <TrendingComponent title="Peliculas de Romance" movies={moviesRomance} />
+            <MostPopularComponent
+              title="Las 10 películas más populares"
+              movies={isScrollEnd ? topMovies : topMovies.slice(0, 10)}
+            />
+            <TrendingComponent
+              title="Peliculas de Terror"
+              movies={isScrollEnd ? moviesTerror : moviesTerror.slice(0, 10)}
+            />
+            <TrendingComponent
+              title="Peliculas de Romance"
+              movies={isScrollEnd ? moviesRomance : moviesRomance.slice(0, 10)}
+            />
 
             {/* <ProgressComponent title="Avances" /> */}
-            <MostPopularComponent title="Lo Mejor de Pixar" movies={moviesPixar} />
+            <MostPopularComponent
+              title="Lo Mejor de Pixar"
+              movies={isScrollEnd ? moviesPixar : moviesPixar.slice(0, 10)}
+            />
             {watchingMovies.length !== 0 && (
-              <WatchingComponent title={`Continuar viendo contenido de ${user.name}`} movies={watchingMovies} />
+              <WatchingComponent
+                title={`Continuar viendo contenido de ${user.name}`}
+                movies={isScrollEnd ? watchingMovies : watchingMovies.slice(0, 10)}
+              />
             )}
-            <TrendingComponent title="Para ver en Familia" movies={moviesFamilia} />
-            <TrendingComponent title="Peliculas de Acción" movies={moviesAccion} />
-            {watchListMovies.length !== 0 && <TrendingComponent title="Mi lista" movies={watchListMovies} />}
-            <TrendingComponent title="Peliculas de Suspenso" movies={moviesSuspense} />
-            <TrendingComponent title="Peliculas de Aventura" movies={moviesAventura} />
-            <TrendingComponent title="Peliculas de Drama" movies={moviesDrama} />
-            <TrendingComponent title="Peliculas de Historia" movies={moviesHistoria} />
-            <TrendingComponent title="Peliculas de Fantasía" movies={moviesFantasia} />
-            <TrendingComponent title="Peliculas de Animación" movies={moviesAnimacion} />
-            <TrendingComponent title="Peliculas de Comedia" movies={moviesComedia} />
+            <TrendingComponent
+              title="Para ver en Familia"
+              movies={isScrollEnd ? moviesFamilia : moviesFamilia.slice(0, 10)}
+            />
+            <TrendingComponent
+              title="Peliculas de Acción"
+              movies={isScrollEnd ? moviesAccion : moviesAccion.slice(0, 10)}
+            />
+            {watchListMovies.length !== 0 && (
+              <TrendingComponent
+                title="Mi lista"
+                movies={isScrollEnd ? watchListMovies : watchListMovies.slice(0, 10)}
+              />
+            )}
+            <TrendingComponent
+              title="Peliculas de Suspenso"
+              movies={isScrollEnd ? moviesSuspense : moviesSuspense.slice(0, 10)}
+            />
+            <TrendingComponent
+              title="Peliculas de Aventura"
+              movies={isScrollEnd ? moviesAventura : moviesAventura.slice(0, 10)}
+            />
+            <TrendingComponent
+              title="Peliculas de Drama"
+              movies={isScrollEnd ? moviesDrama : moviesDrama.slice(0, 10)}
+            />
+            <TrendingComponent
+              title="Peliculas de Historia"
+              movies={isScrollEnd ? moviesHistoria : moviesHistoria.slice(0, 10)}
+            />
+            <TrendingComponent
+              title="Peliculas de Fantasía"
+              movies={isScrollEnd ? moviesFantasia : moviesFantasia.slice(0, 10)}
+            />
+            <TrendingComponent
+              title="Peliculas de Animación"
+              movies={isScrollEnd ? moviesAnimacion : moviesAnimacion.slice(0, 10)}
+            />
+            <TrendingComponent
+              title="Peliculas de Comedia"
+              movies={isScrollEnd ? moviesComedia : moviesComedia.slice(0, 10)}
+            />
           </View>
         </ScrollView>
       </View>

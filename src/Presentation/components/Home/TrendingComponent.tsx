@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Image, ScrollView, FlatList } from "react-native";
+import { Pressable, StyleSheet, Text, View, Image, ScrollView, FlatList, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { MovieSlider } from "./MovieSlider";
 
@@ -7,7 +7,18 @@ interface Props {
   movies: any;
 }
 
+function Loading() {
+  return (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color={"red"} />
+    </View>
+  );
+}
+
 const TrendingComponent = ({ title, movies }: Props) => {
+  if (movies.length === 0) {
+    return <Loading />;
+  }
   return (
     <View
       style={{
@@ -48,5 +59,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 10,
     color: "white",
+  },
+  loadingText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 15,
+    fontWeight: "500",
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black",
   },
 });
