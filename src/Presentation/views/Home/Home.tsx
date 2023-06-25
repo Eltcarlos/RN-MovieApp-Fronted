@@ -104,7 +104,7 @@ const HomeScreen = () => {
     <>
       <View style={HomeStyles.container}>
         <StatusBar backgroundColor="black" />
-        <ScrollView ref={scrollViewRef} onScroll={handleScroll} scrollEventThrottle={16}>
+        <ScrollView ref={scrollViewRef} onScroll={handleScroll} scrollEventThrottle={4}>
           <View style={HomeStyles.navAndPoster}>
             <Navbar user={user}>
               <View style={HomeStyles.ImgContainer}>

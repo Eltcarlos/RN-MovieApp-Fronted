@@ -60,14 +60,7 @@ const LoginScreen = ({ navigation, route }: Props) => {
           </View>
         ) : (
           <>
-            <View style={LoginStyles.logoContainer}>
-              <Image
-                style={LoginStyles.logo}
-                source={{
-                  uri: "https://assets.stickpng.com/images/580b57fcd9996e24bc43c529.png",
-                }}
-              />
-            </View>
+            <View style={LoginStyles.logoContainer}></View>
 
             <View style={LoginStyles.formContainer}>
               <Input

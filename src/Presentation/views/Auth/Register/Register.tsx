@@ -58,14 +58,7 @@ const RegisterScreen = ({ navigation, route }: Props) => {
           </View>
         ) : (
           <>
-            <View style={RegisterStyles.logoContainer}>
-              <Image
-                style={RegisterStyles.logo}
-                source={{
-                  uri: "https://assets.stickpng.com/images/580b57fcd9996e24bc43c529.png",
-                }}
-              />
-            </View>
+            <View style={RegisterStyles.logoContainer}></View>
 
             <View style={RegisterStyles.formContainer}>
               <Input
