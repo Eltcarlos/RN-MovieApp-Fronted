@@ -2,6 +2,7 @@ export const ENV = {
   API_ROUTES: {
     REGISTER: "/auth/signup",
     LOGIN: "/auth/login",
+    SIGNUP: "/auth/signup",
     TOPTENMOVIES: "/movie/moviesmostviews",
     GETUSER: "/user/getuser",
     GETWATCHLIST: "/movie/getwatchlist",

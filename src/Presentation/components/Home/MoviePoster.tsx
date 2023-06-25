@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View, Dimensions } from "react-native";
+import { Image, StyleSheet, Text, View, Dimensions, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Entypo } from "@expo/vector-icons";
@@ -37,7 +37,7 @@ export const MoviePoster = () => {
       <View style={styles.buttonContainer}>
         <View />
         <View style={styles.separator} />
-        <View
+        <Pressable
           style={{
             backgroundColor: "white",
             padding: 8,
@@ -47,15 +47,11 @@ export const MoviePoster = () => {
             borderRadius: 6,
             flexDirection: "row",
           }}
+          onPress={() => navigation.navigate("MovieScreen", movie)}
         >
-          <Entypo
-            name="controller-play"
-            size={24}
-            color="black"
-            onPress={() => navigation.navigate("MovieScreen", movie)}
-          />
+          <Entypo name="controller-play" size={24} color="black" />
           <Text style={{ fontSize: 17, fontWeight: "bold", color: "black" }}>Play</Text>
-        </View>
+        </Pressable>
         <View style={styles.separator} />
         <View />
       </View>

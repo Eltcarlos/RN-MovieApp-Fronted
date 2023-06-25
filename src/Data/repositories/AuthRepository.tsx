@@ -19,4 +19,19 @@ export class AuthRepositoryImpl implements AuthRepository {
       return Promise.resolve(apiError);
     }
   }
+  async signup(name: string, email: string, password: string): Promise<ResponseApiBackend> {
+    try {
+      const response = await ApiBackend.post<ResponseApiBackend>(`${ENV.API_ROUTES.SIGNUP}`, {
+        name: name,
+        email: email,
+        password: password,
+      });
+      return Promise.resolve(response.data);
+    } catch (error) {
+      let e = error as AxiosError;
+      console.log("ERROR: " + JSON.stringify(e.response?.data));
+      const apiError: ResponseApiBackend = JSON.parse(JSON.stringify(e.response?.data));
+      return Promise.resolve(apiError);
+    }
+  }
 }
