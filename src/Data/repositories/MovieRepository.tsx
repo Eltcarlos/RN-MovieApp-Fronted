@@ -46,4 +46,14 @@ export class MovieRepositoryImpl implements MovieRepository {
       return Promise.resolve([]);
     }
   }
+  async getByGenreMovies(genre: string): Promise<Movie[]> {
+    try {
+      const response = await ApiBackend.get<Movie[]>(`${ENV.API_ROUTES.GETBYGENREMOVIES}/${genre}`);
+      return Promise.resolve(response.data);
+    } catch (error) {
+      let e = error as AxiosError;
+      console.log("ERROR: " + JSON.stringify(e.response?.data));
+      return Promise.resolve([]);
+    }
+  }
 }

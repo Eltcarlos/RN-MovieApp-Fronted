@@ -12,7 +12,6 @@ interface PropsProgress {
 }
 const Progress = ({ item, index }: PropsProgress) => {
   const uri = `https://image.tmdb.org/t/p/w500${item.poster_path}`;
-  console.log(item);
   return (
     <TouchableOpacity key={index} onPress={() => {}} style={{ width: 150, height: 150, margin: 10 }}>
       <View style={styles.Container}>

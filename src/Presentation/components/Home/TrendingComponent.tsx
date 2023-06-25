@@ -8,7 +8,6 @@ interface Props {
 }
 
 const TrendingComponent = ({ title, movies }: Props) => {
-  console.log(movies);
   return (
     <View
       style={{

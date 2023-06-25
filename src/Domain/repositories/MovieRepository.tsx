@@ -5,4 +5,5 @@ export interface MovieRepository {
   getWatchList(watchlist: any): Promise<Movie[]>;
   getWatchList(watchinglist: any): Promise<Movie[]>;
   getSimilarMovies(movie: Movie): Promise<Movie[]>;
+  getByGenreMovies(genre: string): Promise<Movie[]>;
 }

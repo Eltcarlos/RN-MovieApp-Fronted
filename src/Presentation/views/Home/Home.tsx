@@ -18,7 +18,31 @@ const HomeScreen = () => {
     topMovies,
     watchingMovies,
     watchListMovies,
+    moviesTerror,
+    moviesRomance,
+    moviesPixar,
+    moviesFamilia,
+    moviesAccion,
+    moviesSuspense,
+    moviesAventura,
+    moviesDrama,
+    moviesHistoria,
+    moviesFantasia,
+    moviesAnimacion,
+    moviesComedia,
+    getMoviesComedia,
+    getMoviesAnimacion,
+    getMoviesFantasia,
+    getMoviesHistoria,
+    getMoviesDrama,
+    getMoviesAventura,
+    getMoviesSuspense,
+    getMoviesAccion,
+    getMoviesFamilia,
+    getMoviesPixar,
+    getMoviesRomance,
     getWatchList,
+    getMoviesTerror,
     getWatchingList,
     getUser,
     setWatchListMovies,
@@ -40,6 +64,21 @@ const HomeScreen = () => {
 
   useEffect(() => {
     getWatchingList();
+  }, []);
+
+  useEffect(() => {
+    getMoviesTerror();
+    getMoviesRomance();
+    getMoviesPixar();
+    getMoviesFamilia();
+    getMoviesAccion();
+    getMoviesSuspense();
+    getMoviesAventura();
+    getMoviesDrama();
+    getMoviesHistoria();
+    getMoviesFantasia();
+    getMoviesAnimacion();
+    getMoviesComedia();
   }, []);
 
   useEffect(() => {
@@ -69,14 +108,25 @@ const HomeScreen = () => {
             </Navbar>
           </View>
           <View style={HomeStyles.flatListContainer}>
-            {/* <ProgressComponent title="Avances" /> */}
             <MostPopularComponent title="Las 10 películas más populares" movies={topMovies} />
+            <TrendingComponent title="Peliculas de Terror" movies={moviesTerror} />
+            <TrendingComponent title="Peliculas de Romance" movies={moviesRomance} />
+
+            {/* <ProgressComponent title="Avances" /> */}
+            <MostPopularComponent title="Lo Mejor de Pixar" movies={moviesPixar} />
             {watchingMovies.length !== 0 && (
               <WatchingComponent title={`Continuar viendo contenido de ${user.name}`} movies={watchingMovies} />
             )}
+            <TrendingComponent title="Para ver en Familia" movies={moviesFamilia} />
+            <TrendingComponent title="Peliculas de Acción" movies={moviesAccion} />
             {watchListMovies.length !== 0 && <TrendingComponent title="Mi lista" movies={watchListMovies} />}
-
-            {/* <TrendingComponent title="Volver a ver" /> */}
+            <TrendingComponent title="Peliculas de Suspenso" movies={moviesSuspense} />
+            <TrendingComponent title="Peliculas de Aventura" movies={moviesAventura} />
+            <TrendingComponent title="Peliculas de Drama" movies={moviesDrama} />
+            <TrendingComponent title="Peliculas de Historia" movies={moviesHistoria} />
+            <TrendingComponent title="Peliculas de Fantasía" movies={moviesFantasia} />
+            <TrendingComponent title="Peliculas de Animación" movies={moviesAnimacion} />
+            <TrendingComponent title="Peliculas de Comedia" movies={moviesComedia} />
           </View>
         </ScrollView>
       </View>

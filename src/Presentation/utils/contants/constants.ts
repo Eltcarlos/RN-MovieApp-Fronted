@@ -7,5 +7,6 @@ export const ENV = {
     GETWATCHLIST: "/movie/getwatchlist",
     GETWATCHINGLIST: "/movie/getwatchinglist",
     GETSIMILARMOVIES: "/movie/similarmovies",
+    GETBYGENREMOVIES: "/movie/getbygenremovies",
   },
 };
