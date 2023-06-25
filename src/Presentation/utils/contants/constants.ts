@@ -8,5 +8,7 @@ export const ENV = {
     GETWATCHINGLIST: "/movie/getwatchinglist",
     GETSIMILARMOVIES: "/movie/similarmovies",
     GETBYGENREMOVIES: "/movie/getbygenremovies",
+    GETSEARCHMOVIES: "/movie/search?query=",
+    GETPOSTER: "/movie/poster",
   },
 };

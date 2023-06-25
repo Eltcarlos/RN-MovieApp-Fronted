@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Entypo } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { GetPosterUseCase } from "../../../Domain/useCases/movie/GetPoster";
 
 export const MoviePoster = () => {
+  const [movie, setMovie] = useState<any>({});
+  const navigation = useNavigation();
+
+  const getPoster = async () => {
+    const result = await GetPosterUseCase();
+    setMovie(result);
+  };
+
+  useEffect(() => {
+    getPoster();
+  }, []);
+
+  console.log(movie);
+
   return (
     <>
       <TouchableOpacity
@@ -17,14 +31,11 @@ export const MoviePoster = () => {
         }}
       >
         <View style={styles.imageContainer}>
-          <Image source={require("../../../../assets/poster.jpg")} style={styles.image} />
+          <Image source={{ uri: movie.poster }} style={styles.image} />
         </View>
       </TouchableOpacity>
       <View style={styles.buttonContainer}>
-        <View>
-          <AntDesign style={{ textAlign: "center" }} name="plus" size={24} color="white" />
-          <Text style={{ fontSize: 12, color: "white", alignItems: "center", textAlign: "center" }}>My List</Text>
-        </View>
+        <View />
         <View style={styles.separator} />
         <View
           style={{
@@ -37,14 +48,16 @@ export const MoviePoster = () => {
             flexDirection: "row",
           }}
         >
-          <Entypo name="controller-play" size={24} color="black" />
+          <Entypo
+            name="controller-play"
+            size={24}
+            color="black"
+            onPress={() => navigation.navigate("MovieScreen", movie)}
+          />
           <Text style={{ fontSize: 17, fontWeight: "bold", color: "black" }}>Play</Text>
         </View>
         <View style={styles.separator} />
-        <View>
-          <AntDesign style={{ textAlign: "center" }} name="infocirlceo" size={24} color="white" />
-          <Text style={{ fontSize: 12, color: "white", alignItems: "center", textAlign: "center" }}>Info</Text>
-        </View>
+        <View />
       </View>
     </>
   );
