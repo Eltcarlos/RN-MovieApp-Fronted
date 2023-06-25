@@ -58,6 +58,28 @@ const Watch = ({ navigation, route }: Props) => {
   }, []);
 
   useEffect(() => {
+    const enableFullscreen = async () => {
+      await video.current.presentFullscreenPlayer();
+    };
+
+    const playbackStatusUpdate = (status: any) => {
+      if (status.isPlaying && !status.isBuffering) {
+        enableFullscreen();
+      }
+    };
+
+    if (video.current) {
+      video.current.setOnPlaybackStatusUpdate(playbackStatusUpdate);
+    }
+
+    return () => {
+      if (video.current) {
+        video.current.setOnPlaybackStatusUpdate(null);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     async function NavigationBarScreen() {
       await NavigationBar.setVisibilityAsync("hidden");
       await NavigationBar.setBackgroundColorAsync("black");
@@ -182,8 +204,8 @@ const Watch = ({ navigation, route }: Props) => {
                   value={currentTime}
                   onValueChange={handleSliderValueChange}
                   onSlidingComplete={handleSliderSlidingComplete}
-                  trackStyle={{ height: 5, backgroundColor: "transparent" }}
-                  thumbStyle={{ height: 20, width: 20, backgroundColor: "red" }}
+                  trackStyle={{ height: 1, backgroundColor: "transparent" }}
+                  thumbStyle={{ height: 10, width: 10, backgroundColor: "red" }}
                   minimumTrackTintColor="red"
                 />
               </View>

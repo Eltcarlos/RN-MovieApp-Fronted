@@ -5,6 +5,7 @@ export const ENV = {
     SIGNUP: "/auth/signup",
     TOPTENMOVIES: "/movie/moviesmostviews",
     GETUSER: "/user/getuser",
+    UPDATEUSERNOTIFICATION: "/user/updateNotification",
     GETWATCHLIST: "/movie/getwatchlist",
     GETWATCHINGLIST: "/movie/getwatchinglist",
     GETSIMILARMOVIES: "/movie/similarmovies",

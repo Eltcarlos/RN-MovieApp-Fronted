@@ -4,6 +4,7 @@ export interface User {
   image: string;
   subscribed: boolean;
   subscriptionPlan: string;
+  notification_token?: string;
   watchlist: string[];
   currentlyWatching: string[];
   session_token: string;

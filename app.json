@@ -1,11 +1,21 @@
 {
   "expo": {
-    "name": "movie-app-fronted",
-    "slug": "movie-app-fronted",
+    "name": "movieFlix",
+    "slug": "movieFlix",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./local/assets/notification-icon.png",
+          "color": "#ffffff",
+          "sounds": ["./local/assets/notification-sound.wav", "./local/assets/notification-sound-other.wav"]
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/splash.gif",
       "resizeMode": "contain",
@@ -20,6 +30,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "permissions": ["SYSTEM_ALERT_WINDOW"],
       "package": "com.eltcarlosfn.movieappfronted"
     },
     "web": {
