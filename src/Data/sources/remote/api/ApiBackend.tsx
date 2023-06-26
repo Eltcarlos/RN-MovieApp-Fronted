@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const ApiBackend = axios.create({
-  baseURL: "https://backend-movie-y8xq.onrender.com/api",
+  baseURL: "http://192.168.1.13:7000/api",
   headers: {
     "Content-type": "application/json",
   },
