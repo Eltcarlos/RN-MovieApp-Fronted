@@ -30,8 +30,9 @@ const AppNavigation = () => {
   const user = useSelector((store: any) => store.user);
   const { notification, notificationListener, responseListener, setNotification, registerForPushNotificationsAsync } =
     NotificationPush();
+
   const updateNotificationToken = async (id: string, token: string) => {
-    const result = await UpdateNotificationTokenUserUseCase(id, token);
+    await UpdateNotificationTokenUserUseCase(id, token);
   };
 
   useEffect(() => {
