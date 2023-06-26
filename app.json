@@ -12,7 +12,8 @@
         {
           "icon": "./assets/notification-icon.png",
           "color": "#000000",
-          "sounds": ["./assets/notification-sound.wav"]
+          "sounds": ["./assets/notification-sound.wav"],
+          "mode": "production"
         }
       ]
     ],
@@ -30,8 +31,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["SYSTEM_ALERT_WINDOW"],
-      "package": "com.eltcarlosfn.movieappfronted"
+      "permissions": ["SYSTEM_ALERT_WINDOW", "NOTIFICATIONS"],
+      "package": "com.eltcarlosfn.movieappfronted",
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
