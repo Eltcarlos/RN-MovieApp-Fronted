@@ -91,7 +91,6 @@ const HomeScreen = () => {
     socket.on("my-list-get", async (data) => {
       setWatchListMovies(data);
     });
-    socket.disconnect();
   }, []);
 
   const handleScroll = (event: any) => {

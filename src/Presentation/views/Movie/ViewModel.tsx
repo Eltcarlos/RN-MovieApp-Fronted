@@ -28,7 +28,6 @@ const MovieViewModel = (user: any, item: Movie) => {
       user: user.id,
       movieId: item._id,
     });
-    socket.disconnect();
   };
 
   const getSimilarMovies = async () => {
