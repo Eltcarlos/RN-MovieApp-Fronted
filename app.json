@@ -1,22 +1,11 @@
 {
   "expo": {
-    "name": "movieFlix",
-    "slug": "movieFlix",
+    "name": "movieFlixy",
+    "slug": "movieFlixy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "plugins": [
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/notification-icon.png",
-          "color": "#000000",
-          "sounds": ["./assets/notification-sound.wav"],
-          "mode": "production"
-        }
-      ]
-    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -32,15 +21,14 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": ["SYSTEM_ALERT_WINDOW", "NOTIFICATIONS"],
-      "package": "com.eltcarlosfn.movieappfronted",
-      "useNextNotificationsApi": true
+      "package": "com.eltcarlosfn.movieappfronted"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "327680f4-bb57-491b-b60a-4cad7d74a2db"
+        "projectId": "21707a64-8bf6-48c7-b5d7-8db3944de98d"
       }
     }
   }
