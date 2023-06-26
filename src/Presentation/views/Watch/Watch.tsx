@@ -14,6 +14,7 @@ import useViewModel from "./ViewModel";
 import socket from "../../utils/Socket/SocketIO";
 import { useSelector } from "react-redux";
 import { Slider } from "react-native-elements";
+import { useKeepAwake } from "expo-keep-awake";
 
 const Header = ({ title }: any) => {
   const navigation = useNavigation();
@@ -34,6 +35,7 @@ const Header = ({ title }: any) => {
 
 interface Props extends StackScreenProps<RootStackParamListApp, "WatchScreen"> {}
 const Watch = ({ navigation, route }: Props) => {
+  useKeepAwake();
   const item: any = route.params;
   const user = useSelector((store: any) => store.user);
   const [showControls, setShowControls] = useState(true);
