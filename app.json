@@ -10,14 +10,14 @@
       [
         "expo-notifications",
         {
-          "icon": "./local/assets/notification-icon.png",
-          "color": "#ffffff",
-          "sounds": ["./local/assets/notification-sound.wav", "./local/assets/notification-sound-other.wav"]
+          "icon": "./assets/notification-icon.png",
+          "color": "#000000",
+          "sounds": ["./assets/notification-sound.wav"]
         }
       ]
     ],
     "splash": {
-      "image": "./assets/splash.gif",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
@@ -38,7 +38,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "999124e5-4c18-4788-abde-f8dcd9373636"
+        "projectId": "327680f4-bb57-491b-b60a-4cad7d74a2db"
       }
     }
   }
