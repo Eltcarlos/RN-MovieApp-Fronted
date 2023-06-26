@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import MainTab from "./tabs/MainTab";
 import HomeScreen from "../views/Home/Home";
 import MovieScreen from "../views/Movie/Movie";
 import WatchScreen from "../views/Watch/Watch";
